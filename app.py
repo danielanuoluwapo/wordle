@@ -1,61 +1,96 @@
+from flask import Flask, render_template, request, jsonify
 import random
 import urllib.request
 import json
 
-def load_api_words(url):
+app = Flask(__name__)
+
+# Get a random 5-letter word from the API
+def get_secret_word():
+    url = "https://random-word-api.herokuapp.com/word?length=5"
+
     with urllib.request.urlopen(url) as response:
-        return json.loads(response.read())
+        words = json.loads(response.read())
+
+    return words[0].lower()
 
 
-def load_dictionary(url):
+# Load valid guesses from your GitHub dictionary
+def load_dictionary():
+    url = "https://raw.githubusercontent.com/dwyl/english-words/master/words_alpha.txt"
+
     with urllib.request.urlopen(url) as response:
         words = response.read().decode("utf-8").splitlines()
-        return [word.lower() for word in words if len(word) == 5]
 
-def is_valid_guess(guess, guesses):
-    return guess in guesses
+    return {
+        word.lower()
+        for word in words
+        if len(word) == 5
+    }
+
+
+guesses = load_dictionary()
+secret_word = get_secret_word()
+
 
 def evaluate_guess(guess, word):
-    feedback = ""
+    result = []
 
     for i in range(5):
         if guess[i] == word[i]:
-            feedback += "\033[32m" + guess[i]
+            result.append("correct")
+        elif guess[i] in word:
+            result.append("present")
         else:
-            if guess[i] in word:
-                feedback += "\033[33m" + guess[i]
-            else:
-                feedback += "\033[0m" + guess[i]
+            result.append("absent")
 
-    return feedback + "\033[0m"
+    return result
 
-def wordle(guesses, answers):
-    print("Welcome to Wordle! Get 6 chances to guess a 5-letter word.")
-    secret_word = random.choice(answers)
 
-    attempts = 1
-    max_attempts = 6
+@app.route("/")
+def home():
+    return render_template("index.html")
 
-    while attempts <= max_attempts:
-        guess = input("Enter Guess #" + str(attempts) + ": ").lower()
-        if not is_valid_guess(guess, guesses):
-            print("Invalid guess. Please enter an English word with 5 letters.")
-            continue
-        if guess == secret_word:
-            print("Congratulations! You guessed the word: ", secret_word)
-            break
 
-        attempts += 1
-        feedback = evaluate_guess(guess, secret_word)
-        print(feedback)
+@app.route("/guess", methods=["POST"])
+def guess():
+    global secret_word
 
-    if attempts > max_attempts:
-        print("Game over. The secret word was: ", secret_word)
-    
+    data = request.get_json()
+    guess = data.get("guess", "").lower()
 
-guesses = load_dictionary("https://raw.githubusercontent.com/dwyl/english-words/master/words_alpha.txt")
-answers = load_api_words("https://random-word-api.herokuapp.com/word?length=5")
+    if len(guess) != 5:
+        return jsonify({
+            "error": "Guess must be 5 letters."
+        }), 400
 
-wordle(guesses, answers)
+    if guess not in guesses:
+        return jsonify({
+            "error": "Not a valid word."
+        }), 400
 
-                          
+    result = evaluate_guess(guess, secret_word)
+
+    won = guess == secret_word
+
+    return jsonify({
+    "guess": guess,
+    "result": result,
+    "won": won,
+    "answer": secret_word
+})
+
+
+@app.route("/new-game", methods=["POST"])
+def new_game():
+    global secret_word
+
+    secret_word = get_secret_word()
+
+    return jsonify({
+        "message": "New game started!"
+    })
+
+
+if __name__ == "__main__":
+    app.run(debug=True)

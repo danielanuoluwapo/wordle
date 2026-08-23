@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Wordle</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <h1>WORDLE</h1>
+
+    <div id="message"></div>
+
+    <div id="board">
+        {% for row in range(6) %}
+            <div class="row">
+                {% for col in range(5) %}
+                    <div class="tile" id="tile-{{ row }}-{{ col }}"></div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+
+    <div id="keyboard">
+
+        <div class="keyboard-row">
+            <button onclick="addLetter('Q')">Q</button>
+            <button onclick="addLetter('W')">W</button>
+            <button onclick="addLetter('E')">E</button>
+            <button onclick="addLetter('R')">R</button>
+            <button onclick="addLetter('T')">T</button>
+            <button onclick="addLetter('Y')">Y</button>
+            <button onclick="addLetter('U')">U</button>
+            <button onclick="addLetter('I')">I</button>
+            <button onclick="addLetter('O')">O</button>
+            <button onclick="addLetter('P')">P</button>
+        </div>
+
+        <div class="keyboard-row">
+            <button onclick="addLetter('A')">A</button>
+            <button onclick="addLetter('S')">S</button>
+            <button onclick="addLetter('D')">D</button>
+            <button onclick="addLetter('F')">F</button>
+            <button onclick="addLetter('G')">G</button>
+            <button onclick="addLetter('H')">H</button>
+            <button onclick="addLetter('J')">J</button>
+            <button onclick="addLetter('K')">K</button>
+            <button onclick="addLetter('L')">L</button>
+        </div>
+
+        <div class="keyboard-row">
+            <button onclick="submitGuess()">ENTER</button>
+            <button onclick="addLetter('Z')">Z</button>
+            <button onclick="addLetter('X')">X</button>
+            <button onclick="addLetter('C')">C</button>
+            <button onclick="addLetter('V')">V</button>
+            <button onclick="addLetter('B')">B</button>
+            <button onclick="addLetter('N')">N</button>
+            <button onclick="addLetter('M')">M</button>
+            <button onclick="removeLetter()">⌫</button>
+        </div>
+
+    </div>
+
+    <button id="new-game" onclick="newGame()">New Game</button>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+</html>
