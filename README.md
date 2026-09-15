@@ -88,17 +88,7 @@ While building this project, I practiced:
 * Working with JSON
 * Basic game logic
 
-## Future Improvements
 
-Some things I could add in the future:
-
-* Score tracking
-* Win streaks
-* Better animations
-* Dark mode
-* More words
-* A better mobile layout
-* Saving game statistics
 
 ## Author
 
