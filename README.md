@@ -1,53 +1,37 @@
 # Wordle Game
 
-This is a simple Wordle game I built using Python, Flask, HTML, CSS and JavaScript.
+This is a simple Wordle game I built using Python, Flask, HTML, CSS, and JavaScript.
 
-The goal is to guess the hidden word within 6 tries.
+The goal of the game is to guess the hidden 5-letter word within 6 tries.
 
 ## What I Used
 
-- Python
-- Flask
-- HTML
-- CSS
-- JavaScript
+* Python
+* Flask
+* HTML
+* CSS
+* JavaScript
 
 ## Features
 
-- Choose a word length from 4 to 8 letters
-- 6 attempts for each game
-- Green means the letter is in the correct position
-- Yellow means the letter is in the word but in the wrong position
-- Gray means the letter is not in the word
-- On-screen keyboard
-- Physical keyboard support
-- New Game button
-- Each player gets their own game
-- Repeated letters are scored using Wordle-style rules
+* Guess a 5-letter word
+* You get 6 attempts
+* Green means the letter is in the correct position
+* Yellow means the letter is in the word but in the wrong position
+* Gray means the letter is not in the word
+* On-screen keyboard
+* You can also use your computer keyboard
+* New Game button
 
 ## How to Run It
 
-### 1. Create a virtual environment
+### 1. Download the project
 
-In the project folder, run:
+Download or clone this repository and open the project folder.
 
-```bash
-python -m venv venv
-```
+### 2. Install Flask
 
-On Windows:
-
-```bash
-venv\Scripts\activate
-```
-
-On macOS/Linux:
-
-```bash
-source venv/bin/activate
-```
-
-### 2. Install the requirements
+Open your terminal in the project folder and run:
 
 ```bash
 pip install -r requirements.txt
@@ -55,13 +39,15 @@ pip install -r requirements.txt
 
 ### 3. Run the app
 
+Run:
+
 ```bash
 python app.py
 ```
 
 ### 4. Open the game
 
-Open this in your browser:
+After running the app, open this in your browser:
 
 ```text
 http://127.0.0.1:5000
@@ -69,19 +55,18 @@ http://127.0.0.1:5000
 
 ## How to Play
 
-1. Choose how many letters you want the word to have.
-2. Type a word.
-3. Press **Enter**.
-4. Use the colours as clues.
-5. Try to find the word within 6 attempts.
+1. Type a 5-letter word.
+2. Press **Enter**.
+3. Check the colours of the letters.
+4. Use the clues to guess the correct word.
+5. You have 6 attempts.
 
 ## Project Files
 
-```text
+```wordle
 ├── app.py
 ├── requirements.txt
 ├── README.md
-├── .gitignore
 ├── templates
 │   └── index.html
 └── static
@@ -93,20 +78,28 @@ http://127.0.0.1:5000
 
 While building this project, I practiced:
 
-- Python
-- Flask routes
-- Flask sessions
-- HTML and CSS
-- JavaScript
-- Working with APIs/data from the internet
-- Sending data between the frontend and backend
-- JSON
-- Game logic
-- Handling repeated letters
+* Python
+* Flask
+* Working with routes
+* HTML and CSS
+* JavaScript
+* Sending data between the frontend and backend
+* Using APIs
+* Working with JSON
+* Basic game logic
 
+## Future Improvements
 
-## Note
+Some things I could add in the future:
 
-The game uses the English word list from the `dwyl/english-words` GitHub repository. An internet connection is needed when the app starts so the word list can be loaded.
+* Score tracking
+* Win streaks
+* Better animations
+* Dark mode
+* More words
+* A better mobile layout
+* Saving game statistics
 
-This is a learning project.
+## Author
+
+Built as a personal learning project.
